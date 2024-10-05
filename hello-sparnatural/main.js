@@ -17,17 +17,21 @@ const yasqe = new Yasqe(document.getElementById("yasqe"), {
 	  method: "GET",
 	  header: {}
 	},
-	copyEndpointOnNewTab: false  
+	copyEndpointOnNewTab: false
 });
 
 // init yasR result display
 // register a specific plugin that is capable of displaying clikable label + URI
-Yasr.registerPlugin("LabelledUriTable",SparnaturalYasguiPlugins.TableX);
+Yasr.registerPlugin("TableX", SparnaturalYasguiPlugins.TableX);
+Yasr.registerPlugin("Map", SparnaturalYasguiPlugins.MapPlugin);
+Yasr.registerPlugin("GridPlugin", SparnaturalYasguiPlugins.GridPlugin);
+Yasr.registerPlugin("StatsPlugin", SparnaturalYasguiPlugins.StatsPlugin);
+Yasr.registerPlugin("Response", SparnaturalYasguiPlugins.Response);
 delete Yasr.plugins['table'];
 
 const yasr = new Yasr(document.getElementById("yasr"), {
-	pluginOrder: ["LabelledUriTable", "response"],
-	defaultPlugin: "LabelledUriTable"
+	pluginOrder: ["TableX", "Response", "Map", "GridPlugin", "StatsPlugin", "response"],
+	defaultPlugin: "TableX"
 });
 
 // link yasqe and yasr
@@ -52,7 +56,7 @@ sparnatural.addEventListener("queryUpdated", (event) => {
 // see http://docs.sparnatural.eu/Javascript-integration.html#sparnatural-events
 sparnatural.addEventListener("submit", (event) => {
 	// enable loader on button
-	sparnatural.disablePlayBtn() ; 
+	sparnatural.disablePlayBtn() ;
 	// trigger the query from YasQE
 	yasqe.query();
 });
@@ -73,5 +77,5 @@ document.getElementById('sparql-toggle').onclick = function() {
 	} else {
 	  document.getElementById('yasqe').style.display = 'none';
 	}
-	return false;        
+	return false;
 } ;
